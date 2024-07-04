@@ -74,7 +74,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 -Create React App \
 -Updated the code per my need \
--Installed Tailwind \
+-Installed Tailwind
 
 
 # Features
@@ -87,8 +87,8 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
         -Background trailer playing \
         -Movie Title and Description \
         -Movies Suggestions \
-            -Movie Titles * N (Vertical scrolling) \
+            -Movie Titles * N (Vertical scrolling)
 
 -Netflix-GPT \
     -Search bar \
-    -Movie Suggestions \
+    -Movie Suggestions
