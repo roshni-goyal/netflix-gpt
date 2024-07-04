@@ -74,14 +74,14 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 -Create React App \
 -Updated the code per my need \
--Installed Tailwind
+-Installed Tailwind \
 
 
 # Features
--Login/Sign UP page \
+**Login/Sign UP page** \
     -Sign in /Sign Up form \
     -redirect to browse page \
--Browse page (After Authentication) \
+**Browse page (After Authentication)** \
     -Header \
     -Main Panel \
         -Background trailer playing \
@@ -89,6 +89,6 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
         -Movies Suggestions \
             -Movie Titles * N (Vertical scrolling)
 
--Netflix-GPT \
+**Netflix-GPT** \
     -Search bar \
     -Movie Suggestions
