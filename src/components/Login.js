@@ -1,10 +1,24 @@
- import React, { useState } from "react";
+ import React, { useRef, useState } from "react";
  import Header from './Header'
+import { checkValidateData } from "../utils/validate";
  
  const Login = () => {
 
 
 const [isSignIn, setIsSignIn] = useState(true);
+const [errorMessage, setErrorMessage] = useState(null);
+
+const email = useRef(null);
+const password = useRef(null);
+const fullName = useRef(null);
+
+const handleButtonClick = () => {
+    //validate the form data
+   const message = checkValidateData(email.current.value, password.current.value,fullName.current.value);
+   console.log(message);
+   setErrorMessage(message);
+    //sign//signup what you wish to.
+}
 const toggleSignInForm = () => {
     setIsSignIn(!isSignIn);
 }
@@ -18,21 +32,38 @@ const toggleSignInForm = () => {
             alt="logo"
       />
             </div>
-            <form className="w-3/12 absolute p-12 my-40 mx-auto right-0 left-0  bg-black  text-white rounded-md bg-opacity-75">
+            <form onSubmit = {(e) => e.preventDefault()}
+                className="w-3/12 absolute p-12 my-40 mx-auto right-0 left-0  bg-black  text-white rounded-md bg-opacity-75">
                 <h1 className="font-bold text-3xl py-4">
                     {isSignIn ? "Sign In" : "Sign Up"}</h1>
                     {!isSignIn && (
-                          <input type = "text" placeholder="Full Name" className="p-4 my-4 w-full  bg-gray-950 border border-slate-300 rounded-sm"></input>
+                          <input
+                          ref= {fullName}
+                          type = "text" 
+                          placeholder="Full Name" 
+                          className="p-4 my-4 w-full  bg-gray-950 border border-slate-300 rounded-sm">
+                          </input>
                     )}
-                <input type = "text" placeholder="Email or mobile number" className="p-4 my-4 w-full bg-gray-950 border border-slate-300 rounded-sm"></input>
-                <input type = "text" placeholder="Password" className="p-4 my-4 w-full  bg-gray-950 border border-slate-300 rounded-sm"></input>
-                
+                   
+                <input
+                    ref= {email}
+                    type = "text" 
+                    placeholder="Email or mobile number" 
+                    className="p-4 my-4 w-full bg-gray-950 border border-slate-300 rounded-sm">
+                    </input>
+                <input 
+                    ref= {password}
+                    type = "password"
+                    placeholder="Password" 
+                    className="p-4 my-4 w-full  bg-gray-950 border border-slate-300 rounded-sm">
+                    </input>
+                <p className="text-red-500 font-bold text-lg py-2">{errorMessage}</p>
                
-                <button className="p-4 my-6 bg-red-600 w-full">
+                <button className="p-4 my-6 bg-red-600 w-full rounded-lg" onClick={handleButtonClick}>
                 {isSignIn ? "Sign In" : "Sign Up"}
                 </button>
                 {isSignIn ? 
-                <p className="py-4"> New To Netflix? 
+                <p className="py-4 cursor-pointer"> New To Netflix? 
                 <span className="font-bold cursor-pointer" onClick={toggleSignInForm}>Sign Up Now.</span></p> : 
                 
                 <p className="py-4 cursor-pointer"> Already a User ?
