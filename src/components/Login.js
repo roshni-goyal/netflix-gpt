@@ -1,6 +1,8 @@
  import React, { useRef, useState } from "react";
  import Header from './Header'
 import { checkValidateData } from "../utils/validate";
+import { createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../utils/firebase";
  
  const Login = () => {
 
@@ -14,10 +16,52 @@ const fullName = useRef(null);
 
 const handleButtonClick = () => {
     //validate the form data
-   const message = checkValidateData(email.current.value, password.current.value,fullName.current.value);
-   console.log(message);
+   const message = checkValidateData(email.current.value, password.current.value);
    setErrorMessage(message);
-    //sign//signup what you wish to.
+    if(message) return; //if message is present that means an error occurred and if error is there than return.
+   
+    if(!isSignIn){
+        //signup logic
+        createUserWithEmailAndPassword(
+            auth, 
+            email.current.value, 
+            password.current.value)
+            .then((userCredential) => {
+    // Signed up 
+         const user = userCredential.user;
+         console.log(user);
+    // ...
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // ..
+         });
+
+    }else{
+        console.log(email.current.value);
+        console.log(password.current.value);
+        signInWithEmailAndPassword(
+            auth, 
+            email.current.value, 
+            password.current.value)
+        .then((userCredential) => {
+          // Signed in 
+          const user = userCredential.user;
+          console.log(user);
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+         if(errorMessage) setErrorMessage("Invalid User Id/password");
+        });
+      
+
+    }
+
+
+
 }
 const toggleSignInForm = () => {
     setIsSignIn(!isSignIn);

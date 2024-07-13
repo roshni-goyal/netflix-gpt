@@ -81,6 +81,9 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 - Sign up Form
 - Form Validation
 - useRef hook
+- Firebase Setup
+- Deploying the app on Production
+- Create Signup User Account in Firebase
 
 
 # Features
