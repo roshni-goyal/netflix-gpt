@@ -1,14 +1,19 @@
  import React, { useRef, useState } from "react";
  import Header from './Header'
 import { checkValidateData } from "../utils/validate";
-import { createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword,signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../utils/firebase";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
  
  const Login = () => {
 
+const dispatch = useDispatch();
 
 const [isSignIn, setIsSignIn] = useState(true);
 const [errorMessage, setErrorMessage] = useState(null);
+const navigate = useNavigate();
 
 const email = useRef(null);
 const password = useRef(null);
@@ -28,8 +33,18 @@ const handleButtonClick = () => {
             password.current.value)
             .then((userCredential) => {
     // Signed up 
-         const user = userCredential.user;
-         console.log(user);
+         const user = userCredential.user; // as soon as the user is generated call the udpate profile API
+         updateProfile(user, {
+            displayName: fullName.current.value,
+            photoURL: "https://avatars.githubusercontent.com/u/73108509?s=400&u=e4978d52177bcf1ba8f8b49afcae6a8f946deb76&v=4"
+          }).then(() => {
+            const {uid,email,displayName,photoURL} = auth.currentUser;
+            dispatch(addUser({uid:uid, email:email, displayName:displayName, photoURL:photoURL}));
+            navigate("/browse");
+          }).catch((error) => {
+            setErrorMessage(error.message);
+          });
+        
     // ...
         })
         .catch((error) => {
@@ -39,8 +54,7 @@ const handleButtonClick = () => {
          });
 
     }else{
-        console.log(email.current.value);
-        console.log(password.current.value);
+       
         signInWithEmailAndPassword(
             auth, 
             email.current.value, 
@@ -48,7 +62,7 @@ const handleButtonClick = () => {
         .then((userCredential) => {
           // Signed in 
           const user = userCredential.user;
-          console.log(user);
+          navigate("/browse");
           // ...
         })
         .catch((error) => {
@@ -119,4 +133,4 @@ const toggleSignInForm = () => {
     )
  };
 
- export default Login
+ export default Login;
